@@ -1,3 +1,4 @@
 [submodule "pqclean"]
 	path = pqclean
-	url = https://github.com/pqclean/PQClean.git
+	url = https://github.com/Quantum-Blockchains/PQClean.git
+	branch = "kostiask/generate_keys_from_seed"
