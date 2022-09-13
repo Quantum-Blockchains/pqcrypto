@@ -26,7 +26,7 @@ pub mod dilithium5;
 pub mod ffi;
 
 pub use crate::dilithium2::{
-    detached_sign as dilithium2_detached_sign, keypair as dilithium2_keypair,
+    detached_sign as dilithium2_detached_sign, keypair as dilithium2_keypair, keypair_from_seed as dilithium2_keypair_from_seed,
     open as dilithium2_open, public_key_bytes as dilithium2_public_key_bytes,
     secret_key_bytes as dilithium2_secret_key_bytes, sign as dilithium2_sign,
     signature_bytes as dilithium2_signature_bytes,

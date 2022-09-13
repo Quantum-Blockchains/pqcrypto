@@ -71,6 +71,7 @@ pub const PQCLEAN_DILITHIUM5_AARCH64_CRYPTO_BYTES: usize = 4595;
 #[link(name = "dilithium2_clean")]
 extern "C" {
     pub fn PQCLEAN_DILITHIUM2_CLEAN_crypto_sign_keypair(pk: *mut u8, sk: *mut u8) -> c_int;
+    pub fn PQCLEAN_DILITHIUM2_CLEAN_crypto_sign_keypair_from_seed(seed: *mut u8, pk: *mut u8, sk: *mut u8) -> c_int;
     pub fn PQCLEAN_DILITHIUM2_CLEAN_crypto_sign(
         sm: *mut u8,
         smlen: *mut usize,
@@ -106,6 +107,8 @@ extern "C" {
 extern "C" {
     #[cfg(enable_x86_avx2)]
     pub fn PQCLEAN_DILITHIUM2_AVX2_crypto_sign_keypair(pk: *mut u8, sk: *mut u8) -> c_int;
+    #[cfg(enable_x86_avx2)]
+    pub fn PQCLEAN_DILITHIUM2_AVX2_crypto_sign_keypair_from_seed(seed: *mut u8, pk: *mut u8, sk: *mut u8) -> c_int;
     #[cfg(enable_x86_avx2)]
     pub fn PQCLEAN_DILITHIUM2_AVX2_crypto_sign(
         sm: *mut u8,
@@ -145,6 +148,8 @@ extern "C" {
 extern "C" {
     #[cfg(enable_aarch64_neon)]
     pub fn PQCLEAN_DILITHIUM2_AARCH64_crypto_sign_keypair(pk: *mut u8, sk: *mut u8) -> c_int;
+    #[cfg(enable_aarch64_neon)]
+    pub fn PQCLEAN_DILITHIUM2_AARCH64_crypto_sign_keypair_from_seed(seed: *mut u8, pk: *mut u8, sk: *mut u8) -> c_int;
     #[cfg(enable_aarch64_neon)]
     pub fn PQCLEAN_DILITHIUM2_AARCH64_crypto_sign(
         sm: *mut u8,

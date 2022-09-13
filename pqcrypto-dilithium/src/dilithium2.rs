@@ -199,6 +199,37 @@ pub fn keypair() -> (PublicKey, SecretKey) {
     gen_keypair!(PQCLEAN_DILITHIUM2_CLEAN_crypto_sign_keypair)
 }
 
+macro_rules! gen_keypair_from_seed {
+    ($seed:expr, $variant:ident) => {{
+        let mut pk = PublicKey::new();
+        let mut sk = SecretKey::new();
+        assert_eq!(
+            unsafe { ffi::$variant(seed, pk.0.as_mut_ptr(), sk.0.as_mut_ptr()) },
+            0
+        );
+        (pk, sk)
+    }};
+}
+
+pub fn keypair_from_seed(seed: *mut u8) -> (PublicKey, SecretKey) {
+    #[cfg(all(enable_x86_avx2, feature = "avx2"))]
+    {
+        if std::is_x86_feature_detected!("avx2") {
+            return gen_keypair!(seed, PQCLEAN_DILITHIUM2_AVX2_crypto_sign_keypair);
+        }
+    }
+    #[cfg(all(enable_aarch64_neon, feature = "neon"))]
+    {
+        // always use AArch64 code, when target is detected as all AArch64 targets have NEON
+        // support, and std::is_aarch64_feature_detected!("neon") works only with Rust nightly at
+        // the moment
+        if true {
+            return gen_keypair!(seed, PQCLEAN_DILITHIUM2_AARCH64_crypto_sign_keypair);
+        }
+    }
+    gen_keypair!(seed, PQCLEAN_DILITHIUM2_CLEAN_crypto_sign_keypair)
+}
+
 macro_rules! gen_signature {
     ($variant:ident, $msg:ident, $sk:ident) => {{
         let max_len = $msg.len() + signature_bytes();
