@@ -204,7 +204,7 @@ macro_rules! gen_keypair_from_seed {
         let mut pk = PublicKey::new();
         let mut sk = SecretKey::new();
         assert_eq!(
-            unsafe { ffi::$variant(seed, pk.0.as_mut_ptr(), sk.0.as_mut_ptr()) },
+            unsafe { ffi::$variant($seed, pk.0.as_mut_ptr(), sk.0.as_mut_ptr()) },
             0
         );
         (pk, sk)
