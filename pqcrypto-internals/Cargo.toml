@@ -15,6 +15,4 @@ dunce = "1.0.2"
 
 [dependencies]
 libc = "0.2"
-
-[dev-dependencies]
 getrandom = "0.2"
