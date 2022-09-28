@@ -11,7 +11,7 @@
 use libc::c_int;
 
 // ensures we link correctly
-#[allow(unused_imports)]
+// #[allow(unused_imports)]
 // use pqcrypto_internals::*;
 
 pub const PQCLEAN_DILITHIUM2_CLEAN_CRYPTO_SECRETKEYBYTES: usize = 2528;
