@@ -15,4 +15,4 @@ dunce = "1.0.2"
 
 [dependencies]
 libc = "0.2"
-getrandom = "0.2"
+getrandom = { version = "0.2", features = ["js"] }
