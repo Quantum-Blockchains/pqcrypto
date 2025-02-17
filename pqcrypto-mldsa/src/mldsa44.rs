@@ -198,6 +198,38 @@ pub fn keypair() -> (PublicKey, SecretKey) {
     gen_keypair!(PQCLEAN_MLDSA44_CLEAN_crypto_sign_keypair)
 }
 
+macro_rules! gen_keypair_from_seed {
+    ($variant:ident, $seed:ident) => {{
+        let mut pk = PublicKey::new();
+        let mut sk = SecretKey::new();
+        assert_eq!(
+            unsafe { ffi::$variant($seed.as_ptr(), pk.0.as_mut_ptr(), sk.0.as_mut_ptr()) },
+            0
+        );
+        (pk, sk)
+    }};
+}
+
+/// Generate a ml-dsa-44 keypair from seed
+pub fn keypair_from_seed(seed: [u8; 32]) -> (PublicKey, SecretKey) {
+    #[cfg(all(enable_x86_avx2, feature = "avx2"))]
+    {
+        if std::is_x86_feature_detected!("avx2") {
+            return gen_keypair_from_seed!(PQCLEAN_MLDSA44_AVX2_crypto_sign_keypair_from_seed, seed);
+        }
+    }
+    #[cfg(all(enable_aarch64_neon, feature = "neon"))]
+    {
+        // always use AArch64 code, when target is detected as all AArch64 targets have NEON
+        // support, and std::is_aarch64_feature_detected!("neon") works only with Rust nightly at
+        // the moment
+        if true {
+            return gen_keypair_from_seed!(PQCLEAN_MLDSA44_AVX2_crypto_sign_keypair_from_seed, seed);
+        }
+    }
+    gen_keypair!(PQCLEAN_MLDSA44_CLEAN_crypto_sign_keypair)
+}
+
 macro_rules! gen_signature {
     ($variant:ident, $msg:ident, $sk:ident) => {{
         let max_len = $msg.len() + signature_bytes();

@@ -71,6 +71,7 @@ pub const PQCLEAN_MLDSA87_AARCH64_CRYPTO_BYTES: usize = 4627;
 #[link(name = "ml-dsa-44_clean")]
 extern "C" {
     pub fn PQCLEAN_MLDSA44_CLEAN_crypto_sign_keypair(pk: *mut u8, sk: *mut u8) -> c_int;
+    pub fn PQCLEAN_MLDSA44_CLEAN_crypto_sign_keypair_from_seed(seed: *const u8, pk: *mut u8, sk: *mut u8) -> c_int;
     pub fn PQCLEAN_MLDSA44_CLEAN_crypto_sign(
         sm: *mut u8,
         smlen: *mut usize,
@@ -143,6 +144,8 @@ extern "C" {
 extern "C" {
     #[cfg(enable_x86_avx2)]
     pub fn PQCLEAN_MLDSA44_AVX2_crypto_sign_keypair(pk: *mut u8, sk: *mut u8) -> c_int;
+    #[cfg(enable_x86_avx2)]
+    pub fn PQCLEAN_MLDSA44_AVX2_crypto_sign_keypair_from_seed(seed: *const u8, pk: *mut u8, sk: *mut u8) -> c_int;
     #[cfg(enable_x86_avx2)]
     pub fn PQCLEAN_MLDSA44_AVX2_crypto_sign(
         sm: *mut u8,
@@ -223,6 +226,8 @@ extern "C" {
 extern "C" {
     #[cfg(enable_aarch64_neon)]
     pub fn PQCLEAN_MLDSA44_AARCH64_crypto_sign_keypair(pk: *mut u8, sk: *mut u8) -> c_int;
+    #[cfg(enable_aarch64_neon)]
+    pub fn PQCLEAN_MLDSA44_AARCH64_crypto_sign_keypair_from_seed(seed: *const u8, pk: *mut u8, sk: *mut u8) -> c_int;
     #[cfg(enable_aarch64_neon)]
     pub fn PQCLEAN_MLDSA44_AARCH64_crypto_sign(
         sm: *mut u8,
