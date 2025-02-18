@@ -211,7 +211,7 @@ macro_rules! gen_keypair_from_seed {
 }
 
 /// Generate a ml-dsa-44 keypair from seed
-pub fn keypair_from_seed(seed: [u8; 32]) -> (PublicKey, SecretKey) {
+pub fn keypair_from_seed(seed: &[u8; 32]) -> (PublicKey, SecretKey) {
     #[cfg(all(enable_x86_avx2, feature = "avx2"))]
     {
         if std::is_x86_feature_detected!("avx2") {

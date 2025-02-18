@@ -142,6 +142,38 @@ pub fn keypair() -> (PublicKey, SecretKey) {
     gen_keypair!(PQCLEAN_MLKEM512_CLEAN_crypto_kem_keypair)
 }
 
+macro_rules! gen_keypair_from_seed {
+    ($variant:ident, $seed:ident) => {{
+        let mut pk = PublicKey::new();
+        let mut sk = SecretKey::new();
+        assert_eq!(
+            unsafe { ffi::$variant($seed.as_ptr(), pk.0.as_mut_ptr(), sk.0.as_mut_ptr()) },
+            0
+        );
+        (pk, sk)
+    }};
+}
+
+/// Generate a ml-kem-512 keypair
+pub fn keypair_from_seed(seed: [u8; 64]) -> (PublicKey, SecretKey) {
+    #[cfg(all(enable_x86_avx2, feature = "avx2"))]
+    {
+        if std::is_x86_feature_detected!("avx2") {
+            return gen_keypair_from_seed!(PQCLEAN_MLKEM512_AVX2_crypto_kem_keypair_from_seed, seed);
+        }
+    }
+    #[cfg(all(enable_aarch64_neon, feature = "neon"))]
+    {
+        // always use AArch64 code, when target is detected as all AArch64 targets have NEON
+        // support, and std::is_aarch64_feature_detected!("neon") works only with Rust nightly at
+        // the moment
+        if true {
+            return gen_keypair!(PQCLEAN_MLKEM512_AARCH64_crypto_kem_keypair);
+        }
+    }
+    gen_keypair_from_seed!(PQCLEAN_MLKEM512_CLEAN_crypto_kem_keypair_from_seed, seed)
+}
+
 macro_rules! encap {
     ($variant:ident, $pk:ident) => {{
         let mut ss = SharedSecret::new();

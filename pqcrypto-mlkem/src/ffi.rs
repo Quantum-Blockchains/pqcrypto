@@ -86,6 +86,7 @@ pub const PQCLEAN_MLKEM1024_AARCH64_CRYPTO_BYTES: usize = 32;
 #[link(name = "ml-kem-512_clean")]
 extern "C" {
     pub fn PQCLEAN_MLKEM512_CLEAN_crypto_kem_keypair(pk: *mut u8, sk: *mut u8) -> c_int;
+    pub fn PQCLEAN_MLKEM512_CLEAN_crypto_kem_keypair_from_seed(seed: *const u8, pk: *mut u8, sk: *mut u8) -> c_int;
     pub fn PQCLEAN_MLKEM512_CLEAN_crypto_kem_enc(ct: *mut u8, ss: *mut u8, pk: *const u8) -> c_int;
     pub fn PQCLEAN_MLKEM512_CLEAN_crypto_kem_dec(
         ss: *mut u8,
@@ -100,6 +101,8 @@ extern "C" {
     #[cfg(enable_x86_avx2)]
     pub fn PQCLEAN_MLKEM512_AVX2_crypto_kem_keypair(pk: *mut u8, sk: *mut u8) -> c_int;
     #[cfg(enable_x86_avx2)]
+    pub fn PQCLEAN_MLKEM512_AVX2_crypto_kem_keypair_from_seed(seed: *const u8, pk: *mut u8, sk: *mut u8) -> c_int;
+    #[cfg(enable_x86_avx2)]
     pub fn PQCLEAN_MLKEM512_AVX2_crypto_kem_enc(ct: *mut u8, ss: *mut u8, pk: *const u8) -> c_int;
     #[cfg(enable_x86_avx2)]
     pub fn PQCLEAN_MLKEM512_AVX2_crypto_kem_dec(ss: *mut u8, ct: *const u8, sk: *const u8)
@@ -111,6 +114,8 @@ extern "C" {
 extern "C" {
     #[cfg(enable_aarch64_neon)]
     pub fn PQCLEAN_MLKEM512_AARCH64_crypto_kem_keypair(pk: *mut u8, sk: *mut u8) -> c_int;
+    #[cfg(enable_aarch64_neon)]
+    pub fn PQCLEAN_MLKEM512_AARCH64_crypto_kem_keypair_from_seed(seed: *const u8, pk: *mut u8, sk: *mut u8) -> c_int;
     #[cfg(enable_aarch64_neon)]
     pub fn PQCLEAN_MLKEM512_AARCH64_crypto_kem_enc(
         ct: *mut u8,
