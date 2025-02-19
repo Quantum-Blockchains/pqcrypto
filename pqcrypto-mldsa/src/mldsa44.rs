@@ -227,7 +227,7 @@ pub fn keypair_from_seed(seed: &[u8; 32]) -> (PublicKey, SecretKey) {
             return gen_keypair_from_seed!(PQCLEAN_MLDSA44_AVX2_crypto_sign_keypair_from_seed, seed);
         }
     }
-    gen_keypair!(PQCLEAN_MLDSA44_CLEAN_crypto_sign_keypair)
+    gen_keypair_from_seed!(PQCLEAN_MLDSA44_CLEAN_crypto_sign_keypair_from_seed, seed)
 }
 
 macro_rules! gen_signature {
